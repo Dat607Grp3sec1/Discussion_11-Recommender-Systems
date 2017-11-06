@@ -1,0 +1,82 @@
+---
+title: "Discussion 11 - Recommender Systems"
+author: "Eric Pitruzzella"
+output:
+  html_document: default
+
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#**Recommender Systems: Waze**
+
+
+
+## Waze Scenario Design
+
+
+### 1) Who are your target users?
+
+Waze describes itself as "the world's largest community-based traffic and navigation app."  Its target users are smart phone owners who drive and need driving directions based on current traffic conditions. However, unlike a GPS type of device that provides navigation Waze also modifies navigation based on traffic. So, Waze users can be considered a subset of people who need directions. Waze's target users primarily live in larger cities with congestion problems and need the fastest route for relatively short distances (within a city).
+
+### 2) What are their key goals?
+
+The goal for a Waze user is to get to a destination in the shortest amount of time. Other destination goals may be shortest route, cheapest non-toll route and notification of speed traps/red light cameras. 
+
+### 3) How can you help them accomplish those goals?
+
+Waze users need directions based accurate traffic conditions. The only way this goal can be achieved is by collection a large amount of driving data from other Waze users while at the same time be able to filter out bad data (ghost drivers) and optimizing best route algorithms. 
+
+
+## Reverse Enginiering
+
+Waze at its core is a recommendation system for navigating. This system relies on constant realtime data from users' phones and GPS locations. For each route request, Waze follows a four step process. 
+
+- 	Waze has an application server that receives specific locations with time stamp of each Waze user with the route area. 
+
+- It identifies the direction and speed of each user based on location coordinates and timestamps. 
+
+- It calculates the most probable routes based on the location and time data.
+
+- And creates a best route using their proprietary algorithm based on most the probable routes.
+
+Waze collects location data from each user and from there calculates the average speed every possible road to a requested destination. From there Waze determines the fastest route based on current (or at least most recent) average speed. However, there are reports that the Waze app caches heavily requested routes to major points. Waze updates routes (your map) at least every 24 hours.  This means if it already knows the best route from B to C (cached route) and you ask to go from A to C, it may only calculate the best route from A to B after it decides it can't find a better route bypassing B. However, if the app doesn't receive the latest update regarding the route from B to C it may not find a better route so you might get longer route A-B-C rather than the shorter A-C. Also keep in mind that Waze determines the fastest route based on current/historical average speed of users on those routes. 
+For routes that are more than 10K, Waze does not calculate every possible route but rather picks routes that include primary streets or highways. 
+
+Finally, Waze only understand routes based on users actually driving them (unlike a GPS device that uses maps with GPS coordinates). So if no one drive a particular route, Waze will never know about it, although it may be the fastest route. This is a flaw of recommender systems in general. 
+Recommendations
+
+
+
+
+## Recommendations
+
+
+Waze relies on user input for route calculations. Their algorithm doesn't really understand a city street. So traffic lights, stop signs, speed limits and truck routes are not included in its route calculations. Users won't get the fastest route because: 
+
+- Traffic lights and stop signs can slow down a route so people usually find routes that avoid them. 
+
+- Speed limits: Waze calculates routes based on other users average speeds. However, if most users go over the speed limit then that route is calculated using faster than legal speeds. This may be an issue for people who routinely obey speed limits. 
+
+- Trucks: Truck drivers are underrepresented in the Waze community. The app doesn't include truck restriction data (height restrictions, no truck turns, etc.) So truck traffic won't be included in Waze route calculations and thus underestimate route time. 
+
+
+# Conclusion
+
+Waze is an example of recommender systems used outside of sales and marketing. It stretches recommender systems to their limit in terms of data processed and speed required to provide results. It may be difficult for now for Waze to implement recommendations listed above that require non-user data in calculations. 
+
+
+# References:
+
+https://www.waze.com
+
+https://medium.com/@humansforai/recommendation-engines-e431b6b6b446
+
+https://www.google.com/patents/US8612136
+
+https://wiki.waze.com/wiki/Routing_server
+
+
