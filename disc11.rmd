@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #**Recommender Systems: Waze**
 
-
+Waze is a GPS-based  navigation app for smartphones that provides turn-by-turn information and user-submitted travel times and route details in the form of traffic updates. 
 
 ## Waze Scenario Design
 
